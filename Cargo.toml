@@ -1,0 +1,55 @@
+# Copyright (c) 2026 ZuZu Wallet
+# https://ZuZuWallet.com
+# Support@ZuZuWallet.com
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+[package]
+name = "ada-vanity"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+publish = false
+description = "Offline Cardano Shelley vanity address generator"
+readme = "README.md"
+
+[dependencies]
+argon2 = { version = "0.5", features = ["zeroize"] }
+# argon2 0.5 wipes its Blake2 state when `zeroize` is on, but it does not
+# enable generic-array's `zeroize` feature. The direct feature turns on
+# `GenericArray::zeroize` so that wipe compiles.
+generic-array = { version = "=0.14.7", features = ["zeroize"] }
+base64 = "0.22"
+bech32 = "0.11"
+bip39 = { version = "2.2", default-features = false, features = ["std", "zeroize"] }
+blake2 = "0.10"
+chacha20poly1305 = "0.10"
+clap = { version = "4", features = ["derive"] }
+cryptoxide = "0.4"
+ctrlc = "3"
+curve25519-dalek = { version = "4", default-features = false, features = ["alloc", "precomputed-tables", "zeroize"] }
+ed25519-bip32 = "0.4"
+ed25519-dalek = { version = "2", default-features = false, features = ["alloc", "fast", "zeroize"] }
+getrandom = "0.2"
+hmac = "0.12"
+pbkdf2 = { version = "0.12", default-features = false, features = ["hmac"] }
+rpassword = "7"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+thiserror = "2"
+zeroize = { version = "1", features = ["alloc"] }
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[lib]
+name = "ada_vanity"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ada-vanity"
+path = "src/main.rs"
+
+[[bench]]
+name = "derive"
+harness = false
